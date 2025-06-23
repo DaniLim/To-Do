@@ -1,0 +1,12 @@
+- [ ] Bootstrap repository and configure Supabase tables
+- [ ] Deploy FastAPI bot worker on Fly/Railway and set Telegram webhook
+- [ ] Connect Expo app to Supabase and display tasks
+- [ ] Parse free-form text via Gemini to structured tasks
+- [ ] Send push notifications for due tasks
+- [ ] Implement recurring rules and snooze
+- [ ] Add offline cache and swipe to complete
+- [ ] Integrate Google Calendar with OAuth and AI slot suggestion
+- [ ] Support voice messages via ASR
+- [ ] Add OCR for photo tasks
+- [ ] Build web dashboard and dark mode
+- [ ] Add biometric lock to mobile app

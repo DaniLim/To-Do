@@ -1,0 +1,14 @@
+version: 1
+tools:
+  - name: add_task
+    description: Add a task or calendar item
+    parameters:
+      title: string
+      list: string
+      due: datetime | null
+      important: boolean
+      repeat: enum[daily, weekly, monthly, yearly, custom] | null
+  - name: complete_task
+    description: Mark a task as completed
+    parameters:
+      id: uuid
