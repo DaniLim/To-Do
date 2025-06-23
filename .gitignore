@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.env
+
+# Node
+node_modules/
+.expo/
+
+# OS
+.DS_Store
+.idea/
+.vscode/
