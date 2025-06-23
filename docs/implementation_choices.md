@@ -6,4 +6,4 @@
 | **Storage** | Supabase Postgres | 0 $ / <500 MB DB, instant REST & RLS. |
 | **Mobile** | React Native + Expo | One codebase, OTA updates, push notifications. |
 | **Notifications** | Expo Push + Telegram fallback | Native alerts + chat replies. |
-| **Hosting** | Fly.io / Railway free | Runs FastAPI worker + cron; custom domain for webhook. |
+| **Hosting** | Railway free | Runs FastAPI worker + cron; custom domain for webhook. |
