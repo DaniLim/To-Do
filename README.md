@@ -141,9 +141,8 @@ See [mobile/README.md](mobile/README.md) for details.
 
 ## ⚙️ Configuration & Deploy
 
-* **Import Maps**: Controlled by `import_map.json` for Deno dep pinning.
 * **Edge Function**: Lives under `supabase/functions/telegram_webhook/`.
-* **Database Schema**: Defined in `infra/schema.sql`.
+* **Database Schema**: Defined in `schema/schema.sql`.
 
 ---
 

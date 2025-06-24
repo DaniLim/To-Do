@@ -15,7 +15,6 @@ serve(async (req) => {
   const {
     SPBASE_URL,
     SPBASE_SERVICE_ROLE_KEY,
-    TELEGRAM_TOKEN
   } = Deno.env.toObject();
 
   if (!SPBASE_URL || !SPBASE_SERVICE_ROLE_KEY || !TELEGRAM_TOKEN) {
