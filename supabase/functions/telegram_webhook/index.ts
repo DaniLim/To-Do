@@ -4,20 +4,22 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 serve(async (req) => {
   // 1. Validate Telegram webhook secret
-  const TELEGRAM_TOKEN = Deno.env.get("TELEGRAM_TOKEN");
+  const TELEGRAM_SECRET = Deno.env.get("TELEGRAM_SECRET_TOKEN");
   const incomingSecret = req.headers.get("x-telegram-bot-api-secret-token");
-  if (!TELEGRAM_TOKEN || incomingSecret !== TELEGRAM_TOKEN) {
-    console.warn("Unauthorized request");
-    return new Response("Unauthorized", { status: 401 });
+  if (!TELEGRAM_SECRET || incomingSecret !== TELEGRAM_SECRET) {
+    console.warn("Unauthorized request, bad or missing secret:", incomingSecret);
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // 2. Parse env vars and initialize clients
-  const {
-    SPBASE_URL,
-    SPBASE_SERVICE_ROLE_KEY,
-  } = Deno.env.toObject();
+  const TELEGRAM_TOKEN = Deno.env.get("TELEGRAM_TOKEN");
+  const SPBASE_URL = Deno.env.get("SPBASE_URL");
+  const SPBASE_SERVICE_ROLE_KEY = Deno.env.get("SPBASE_SERVICE_ROLE_KEY");
 
-  if (!SPBASE_URL || !SPBASE_SERVICE_ROLE_KEY || !TELEGRAM_TOKEN) {
+  if (!TELEGRAM_TOKEN || !SPBASE_URL || !SPBASE_SERVICE_ROLE_KEY) {
     console.error("Missing one or more required env vars");
     return new Response(
       JSON.stringify({ error: "Server misconfiguration" }),
@@ -55,8 +57,8 @@ serve(async (req) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: chatId,
-            text: "✅ Added!"
-          })
+            text: "✅ Added!",
+          }),
         }
       );
 
@@ -69,16 +71,15 @@ serve(async (req) => {
     // 6. Return success JSON
     return new Response(JSON.stringify({ status: "ok" }), {
       status: 200,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
-
   } catch (err) {
     console.error("Unhandled error in handler:", err);
     return new Response(
       JSON.stringify({ status: "error", message: err.message }),
       {
         status: 500,
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       }
     );
   }
