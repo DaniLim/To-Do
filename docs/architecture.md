@@ -1,7 +1,7 @@
 ```
 ┌───────────────┐            HTTP/Webhook           ┌─────────────────────────────┐
 │  Telegram App │ ────────────────────────────────► │   Supabase Edge Function (Deno)    │
-│  (you DM bot) │                                     │ (FastAPI + PTB) │
+│  (you DM bot) │                                     │      (Deno)     │
 └───────────────┘                                     │  • Gemini call  │
       ▲                 push notifications            │  • JSON output  │
       │                                               └──────┬──────────────────────┘
