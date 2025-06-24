@@ -8,12 +8,12 @@ import os
 
 app = FastAPI()
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+SPBASE_URL = os.getenv("SPBASE_URL")
+SPBASE_SERVICE_ROLE_KEY = os.getenv("SPBASE_SERVICE_ROLE_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+supabase = create_client(SPBASE_URL, SPBASE_SERVICE_ROLE_KEY)
 model = GenerativeModel("gemini-pro")
 
 bot_app = Application.builder().token(TELEGRAM_TOKEN).build()
