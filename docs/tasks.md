@@ -1,5 +1,5 @@
 - [ ] Bootstrap repository and configure Supabase tables
-- [ ] Deploy FastAPI bot worker on Railway and set Telegram webhook
+- [ ] Deploy Supabase edge function for Telegram webhook
 - [ ] Connect Expo app to Supabase and display tasks
 - [ ] Parse free-form text via Gemini to structured tasks
 - [ ] Send push notifications for due tasks
