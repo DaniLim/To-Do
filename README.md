@@ -118,10 +118,9 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 Located in `infra/.env`:
 
 ```dotenv
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
+SPBASE_URL=
+SPBASE_SERVICE_ROLE_KEY=
 TELEGRAM_TOKEN=
-TELEGRAM_SECRET_TOKEN=
 GEMINI_API_KEY=
 ```
 

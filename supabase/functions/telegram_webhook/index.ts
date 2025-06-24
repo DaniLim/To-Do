@@ -4,9 +4,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 serve(async (req) => {
   // 1. Validate Telegram webhook secret
-  const TELEGRAM_SECRET_TOKEN = Deno.env.get("TELEGRAM_SECRET_TOKEN");
+  const TELEGRAM_TOKEN = Deno.env.get("TELEGRAM_TOKEN");
   const incomingSecret = req.headers.get("x-telegram-bot-api-secret-token");
-  if (!TELEGRAM_SECRET_TOKEN || incomingSecret !== TELEGRAM_SECRET_TOKEN) {
+  if (!TELEGRAM_TOKEN || incomingSecret !== TELEGRAM_TOKEN) {
     console.warn("Unauthorized request");
     return new Response("Unauthorized", { status: 401 });
   }
