@@ -99,17 +99,28 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 6. **Set Telegram webhook**
 
    ```bash
+   # Serve locally (for testing) or use deployed URL
    supabase functions serve telegram_webhook --env-file infra/.env --no-verify-jwt
-   # Copy the local URL (or the deployed URL) and register it
-   curl "https://api.telegram.org/bot$TOKEN/setWebhook?url=<FUNCTION_URL>"
+   # Then register the webhook with Telegram, including your secret token
+   curl -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/setWebhook" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "url": "<FUNCTION_URL>",
+       "secret_token": "'$TELEGRAM_SECRET_TOKEN'"
+     }'
    ```
 
 7. **Start the mobile app**
 
+   ````bash
+   cd mobile
+   expo start
+   ```**
+
    ```bash
    cd mobile
    expo start
-   ```
+   ````
 
 ---
 
@@ -121,10 +132,50 @@ Located in `infra/.env`:
 SPBASE_URL=
 SPBASE_SERVICE_ROLE_KEY=
 TELEGRAM_TOKEN=
+TELEGRAM_SECRET_TOKEN=
 GEMINI_API_KEY=
 ```
 
 > **Note**: Secrets should be pushed to Supabase using `supabase secrets set` before deployment.
+
+---
+
+## 🔗 Telegram Webhook Setup
+
+Secure and validate incoming updates from Telegram by using a dedicated secret token.
+
+1. **Define the webhook secret** in your `infra/.env`:
+
+   ```dotenv
+   TELEGRAM_SECRET_TOKEN=your-long-random-string
+   ```
+
+   Then push it to Supabase Secrets:
+
+   ```bash
+   supabase secrets set --env-file infra/.env --project-ref <your-project-ref>
+   ```
+
+2. **Deploy the Edge Function** (if not already deployed):
+
+   ```bash
+   supabase functions deploy telegram_webhook \
+     --project-ref <your-project-ref> \
+     --no-verify-jwt
+   ```
+
+3. **Register the webhook with Telegram**, passing your bot token and the secret token:
+
+   ```bash
+   curl -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/setWebhook" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "url": "<FUNCTION_URL>",
+       "secret_token": "'$TELEGRAM_SECRET_TOKEN'"
+     }'
+   ```
+
+   > Telegram will include `x-telegram-bot-api-secret-token: your-long-random-string` in each update request.
 
 ---
 
@@ -155,4 +206,3 @@ Contributions are welcome! Please open issues or PRs in the [GitHub repo](https:
 ## 📄 License
 
 Released under the MIT License. See [LICENSE](LICENSE) for details.
-
