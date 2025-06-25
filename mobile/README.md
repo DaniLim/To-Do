@@ -10,10 +10,17 @@ This folder contains the React Native app built with **Expo**. It connects to Su
 npm install
 ```
 
-2. Start the Expo dev server:
+2. Copy `.env.example` to `.env` and fill in your Supabase credentials:
+
+```bash
+cp .env.example .env
+# edit .env with your SPBASE_URL and SPBASE_ANON_KEY
+```
+
+3. Start the Expo dev server:
 
 ```bash
 expo start
 ```
 
-The app expects the Supabase URL and anon key to be provided via the Expo config in `app.json` or `app.config.js`.
+The app reads the Supabase URL and anon key from `app.config.js`, which loads them from `.env`.
