@@ -4,15 +4,15 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 serve(async (req) => {
   // 1. Validate Telegram webhook secret
-  const TELEGRAM_SECRET = Deno.env.get("TELEGRAM_SECRET_TOKEN");
-  const incomingSecret = req.headers.get("x-telegram-bot-api-secret-token");
-  if (!TELEGRAM_SECRET || incomingSecret !== TELEGRAM_SECRET) {
-    console.warn("Unauthorized request, bad or missing secret:", incomingSecret);
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+const WEBHOOK_SECRET = Deno.env.get("TELEGRAM_SECRET_TOKEN");
+const incoming = req.headers.get("x-telegram-bot-api-secret-token");
+if (!WEBHOOK_SECRET || incoming !== WEBHOOK_SECRET) {
+  console.warn("Unauthorized request, got:", incoming);
+  return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    status: 401,
+    headers: { "Content-Type": "application/json" },
+  });
+}
 
   // 2. Parse env vars and initialize clients
   const TELEGRAM_TOKEN = Deno.env.get("TELEGRAM_TOKEN");
