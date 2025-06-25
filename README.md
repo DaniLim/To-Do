@@ -8,26 +8,26 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 
 ## 🔖 Table of Contents
 
-* [Features](#-features)
-* [Architecture](#-architecture)
-* [Prerequisites](#-prerequisites)
-* [Quick Start](#-quick-start)
-* [Environment Variables](#-environment-variables)
-* [Telegram Webhook Setup](#-telegram-webhook-setup)
-* [Mobile App](#-mobile-app)
-* [Configuration & Deploy](#-configuration--deploy)
-* [Contributing](#-contributing)
-* [License](#-license)
+- [Features](#-features)
+- [Architecture](#-architecture)
+- [Prerequisites](#-prerequisites)
+- [Quick Start](#-quick-start)
+- [Environment Variables](#-environment-variables)
+- [Telegram Webhook Setup](#-telegram-webhook-setup)
+- [Mobile App](#-mobile-app)
+- [Configuration & Deploy](#-configuration--deploy)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
 ## ✨ Features
 
-* **Chat-driven tasks**: Add to-dos directly from Telegram messages.
-* **AI-powered**: Leverage **Gemini 1.5 Pro** for natural language parsing and smart scheduling.
-* **Real-time sync**: Tasks and reminders sync instantly to the **React Native** mobile app via **Supabase**.
-* **Secure**: Validates Telegram webhooks and uses **Supabase Secrets** for credentials.
-* **Extensible**: Easily add new commands or integrations.
+- **Chat-driven tasks**: Add to-dos directly from Telegram messages.
+- **AI-powered**: Leverage **Gemini 1.5 Pro** for natural language parsing and smart scheduling.
+- **Real-time sync**: Tasks and reminders sync instantly to the **React Native** mobile app via **Supabase**.
+- **Secure**: Validates Telegram webhooks and uses **Supabase Secrets** for credentials.
+- **Extensible**: Easily add new commands or integrations.
 
 ---
 
@@ -43,14 +43,14 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 
 ## 📋 Prerequisites
 
-* **Deno** >= v1.35 (for local function serve)
-* **Python** 3.11 (if running AI preprocessing locally)
-* **Node.js** >= 18
-* **Expo CLI** (for React Native development)
-* **Supabase CLI**
-* A Supabase project with service role key & functions enabled
-* A Telegram bot token
-* A **Gemini API key** (Google Generative AI)
+- **Deno** >= v1.35 (for local function serve)
+- **Python** 3.11 (if running AI preprocessing locally)
+- **Node.js** >= 18
+- **Expo CLI** (for React Native development)
+- **Supabase CLI**
+- A Supabase project with service role key & functions enabled
+- A Telegram bot token
+- A **Gemini API key** (Google Generative AI)
 
 ---
 
@@ -112,25 +112,22 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 
 7. **Start the mobile app**
 
-   ````bash
-   cd mobile
-   expo start
-   ```**
-
    ```bash
    cd mobile
+   cp .env.example .env  # add SPBASE_URL and SPBASE_ANON_KEY
    expo start
-   ````
+   ```
 
 ---
 
 ## 🔧 Environment Variables
 
-Located in `infra/.env`:
+Located in `infra/.env` (backend) and `mobile/.env` (mobile app):
 
 ```dotenv
 SPBASE_URL=
 SPBASE_SERVICE_ROLE_KEY=
+SPBASE_ANON_KEY=
 TELEGRAM_TOKEN=
 TELEGRAM_SECRET_TOKEN=
 GEMINI_API_KEY=
@@ -181,10 +178,10 @@ Secure and validate incoming updates from Telegram by using a dedicated secret t
 
 ## 📱 Mobile App
 
-* Built with **React Native** and **Expo**.
-* Connects to Supabase for real-time data.
-* Supports adding, editing, and completing tasks.
-* Calendar view for reminders.
+- Built with **React Native** and **Expo**.
+- Connects to Supabase for real-time data.
+- Supports adding, editing, and completing tasks.
+- Calendar view for reminders.
 
 See [mobile/README.md](mobile/README.md) for details.
 
@@ -192,8 +189,8 @@ See [mobile/README.md](mobile/README.md) for details.
 
 ## ⚙️ Configuration & Deploy
 
-* **Edge Function**: Lives under `supabase/functions/telegram_webhook/`.
-* **Database Schema**: Defined in `schema/schema.sql`.
+- **Edge Function**: Lives under `supabase/functions/telegram_webhook/`.
+- **Database Schema**: Defined in `schema/schema.sql`.
 
 ---
 
