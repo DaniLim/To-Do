@@ -7,11 +7,11 @@
   `supabase/functions/telegram_webhook/index.ts` stores incoming Telegram messages and responds.
 
 ## Phase 1 – MVP
-- [x] **Connect Expo app to Supabase and display tasks**  
+- [x] **Connect Expo app to Supabase and display tasks**
   `mobile/App.tsx` subscribes to the `tasks` table and renders a list of items.
-- [ ] **Parse free-form text via Gemini to structured tasks**  
-  Use Gemini function calling to extract title, due date and recurrence from messages.
-- [ ] **Send push notifications for due tasks**  
+- [x] **Parse free-form text via Gemini to structured tasks**
+  `telegram_webhook` now calls Gemini's API with function calling and stores structured tasks.
+- [ ] **Send push notifications for due tasks**
   Schedule a cron job to trigger Expo push notifications when tasks are due.
 
 ## Phase 2 – Quality of Life

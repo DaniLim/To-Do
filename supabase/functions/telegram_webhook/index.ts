@@ -2,6 +2,62 @@
 import { serve } from "https://deno.land/std@0.203.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+// Gemini request payload based on docs/mcp_spec.yaml
+const GEMINI_FUNCTION_DECLARATIONS = [
+  {
+    name: "add_task",
+    description: "Add a task or calendar item",
+    parameters: {
+      type: "object",
+      properties: {
+        title: { type: "string" },
+        list: { type: "string" },
+        due: { type: "string", format: "date-time", nullable: true },
+        important: { type: "boolean" },
+        repeat: {
+          type: "string",
+          enum: ["daily", "weekly", "monthly", "yearly", "custom"],
+          nullable: true,
+        },
+      },
+      required: ["title"],
+    },
+  },
+];
+
+async function parseWithGemini(
+  apiKey: string,
+  text: string,
+): Promise<Record<string, unknown> | null> {
+  const url =
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+  const body = {
+    contents: [{ role: "user", parts: [{ text }] }],
+    tools: [{ function_declarations: GEMINI_FUNCTION_DECLARATIONS }],
+    tool_config: { function_calling_config: { mode: "AUTO" } },
+  };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  const json = await res.json();
+  const call =
+    json?.candidates?.[0]?.content?.parts?.[0]?.functionCall || null;
+  if (!call || call.name !== "add_task") return null;
+  try {
+    const args = typeof call.args === "string"
+      ? JSON.parse(call.args)
+      : call.args;
+    return args ?? null;
+  } catch (err) {
+    console.error("Failed to parse Gemini args:", err);
+    return null;
+  }
+}
+
 serve(async (req) => {
   // 1. Validate Telegram webhook secret
 const WEBHOOK_SECRET = Deno.env.get("TELEGRAM_SECRET_TOKEN");
@@ -35,16 +91,47 @@ if (!WEBHOOK_SECRET || incoming !== WEBHOOK_SECRET) {
     const text = update?.message?.text;
     const chatId = update?.message?.chat?.id;
 
-    // 4. Insert new task if text is present
+    // 4. Parse text via Gemini and insert task
+    let insertedTitle = text || "";
     if (text) {
-      const { data, error: insertError } = await supabase
-        .from("tasks")
-        .insert({ title: text });
-
-      if (insertError) {
-        console.error("Supabase insert error:", insertError);
-      } else {
-        console.log("Inserted task:", data);
+      try {
+        const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") || "";
+        const parsed = GEMINI_API_KEY
+          ? await parseWithGemini(GEMINI_API_KEY, text)
+          : null;
+        if (parsed) {
+          insertedTitle = String(parsed.title || text);
+          let listId = null;
+          if (parsed.list) {
+            const { data: existing } = await supabase
+              .from("task_lists")
+              .select("id")
+              .eq("name", parsed.list)
+              .maybeSingle();
+            if (existing) {
+              listId = existing.id;
+            } else {
+              const { data: newList } = await supabase
+                .from("task_lists")
+                .insert({ name: parsed.list })
+                .select()
+                .single();
+              listId = newList.id;
+            }
+          }
+          await supabase.from("tasks").insert({
+            list_id: listId,
+            title: insertedTitle,
+            due_at: parsed.due || null,
+            important: parsed.important ?? false,
+            repeat: parsed.repeat || null,
+          });
+        } else {
+          await supabase.from("tasks").insert({ title: text });
+        }
+      } catch (gerr) {
+        console.error("Gemini parse error:", gerr);
+        await supabase.from("tasks").insert({ title: text });
       }
     }
 
@@ -57,9 +144,9 @@ if (!WEBHOOK_SECRET || incoming !== WEBHOOK_SECRET) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: chatId,
-            text: "✅ Added!",
+            text: `✅ Added: ${insertedTitle}`,
           }),
-        }
+        },
       );
 
       if (!telegramRes.ok) {
