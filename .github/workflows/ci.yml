@@ -23,7 +23,7 @@ jobs:
           pip install -r backend/requirements.txt
           pip install ruff pytest
       - name: Lint backend
-        run: ruff backend
+        run: ruff check backend
       - name: Test backend
         run: pytest || true
       - name: Install mobile deps
