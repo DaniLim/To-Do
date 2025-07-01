@@ -20,7 +20,7 @@ cp .env.example .env
 3. Start the Expo dev server:
 
 ```bash
-expo start
+npx expo start
 ```
 
 The app reads the Supabase URL and anon key from `app.config.js`, which loads them from `.env`.
