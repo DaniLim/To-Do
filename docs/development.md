@@ -8,7 +8,7 @@ This guide explains how to run the Telegram bot, Supabase functions and mobile a
 - [Python](https://www.python.org/) 3.11
 - [Node.js](https://nodejs.org/) >= 18
 - [Supabase CLI](https://supabase.com/docs/guides/cli) (`npm install -g supabase`)
-- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/) (`npm install -g expo-cli`)
+- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/) (via `npx expo`)
 
 Docker is required if you want to start a local Postgres instance with `supabase start`.
 
@@ -28,11 +28,10 @@ source venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
-Install Node dependencies and the Expo tooling:
+Install Node dependencies:
 
 ```bash
 npm install
-npm install -g expo-cli
 ```
 
 
@@ -102,7 +101,7 @@ Inside the `mobile` folder install dependencies and start the Expo dev server:
 ```bash
 cd mobile
 npm install
-expo start
+npx expo start
 ```
 
 The app will read the Supabase URL and anon key from `mobile/.env`.

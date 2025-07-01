@@ -71,7 +71,6 @@ For a full walkthrough of running the bot and app locally see [docs/development.
    ```bash
    python -m venv venv && source venv/bin/activate
    npm install
-   npm install -g expo-cli
    ```
 
 3. **Configure environment**
@@ -118,7 +117,7 @@ For a full walkthrough of running the bot and app locally see [docs/development.
    ```bash
    cd mobile
    cp .env.example .env  # add SPBASE_URL and SPBASE_ANON_KEY
-   expo start
+   npx expo start
    ```
 
 ---
