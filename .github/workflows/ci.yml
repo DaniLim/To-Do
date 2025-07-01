@@ -31,4 +31,4 @@ jobs:
           cd mobile && npm install
       - name: Lint mobile
         run: |
-          cd mobile && npx expo lint
+          cd mobile && npm run lint
