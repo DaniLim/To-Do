@@ -183,6 +183,7 @@ Secure and validate incoming updates from Telegram by using a dedicated secret t
 - Built with **React Native** and **Expo**.
 - Connects to Supabase for real-time data.
 - Supports adding, editing, and completing tasks.
+- Modern card-based UI updates instantly when new tasks arrive.
 - Calendar view for reminders.
 
 See [mobile/README.md](mobile/README.md) for details.

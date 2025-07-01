@@ -11,6 +11,8 @@
   `mobile/App.tsx` subscribes to the `tasks` table and renders a list of items.
 - [x] **Parse free-form text via Gemini to structured tasks**
   `telegram_webhook` now calls Gemini's API with function calling and stores structured tasks.
+- [x] **Realtime updates & modern UI for tasks**
+  The Expo app listens for `postgres_changes` and displays tasks in a card-based layout.
 - [ ] **Send push notifications for due tasks**
   Schedule a cron job to trigger Expo push notifications when tasks are due.
 
