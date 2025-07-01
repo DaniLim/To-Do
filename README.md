@@ -12,6 +12,7 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 - [Architecture](#-architecture)
 - [Prerequisites](#-prerequisites)
 - [Quick Start](#-quick-start)
+- [Local Development](docs/development.md)
 - [Environment Variables](#-environment-variables)
 - [Telegram Webhook Setup](#-telegram-webhook-setup)
 - [Mobile App](#-mobile-app)
@@ -55,6 +56,8 @@ A Telegram-driven to-do and calendar assistant powered by **Gemini 1.5 Pro**. Ca
 ---
 
 ## 🚀 Quick Start
+
+For a full walkthrough of running the bot and app locally see [docs/development.md](docs/development.md).
 
 1. **Clone the repo**
 
