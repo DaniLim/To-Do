@@ -21,7 +21,7 @@ The project evolves in several phases. Each phase groups related tasks from `tas
 
 ### Phase 1 – MVP
 1. Parse messages with Gemini and store structured tasks.
-2. Display tasks in the Expo app with realtime updates.
+2. Display tasks in the Expo app with realtime updates and a modern UI. ✅
 3. Send push notifications when tasks are due.
 
 ### Phase 2 – Quality of Life
