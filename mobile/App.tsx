@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   FlatList,
   Text,
@@ -18,6 +18,12 @@ const supabase = createClient(supabaseUrl!, supabaseKey!);
 export default function App() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [lists, setLists] = useState<Record<string, string>>({});
+  const listsRef = useRef<Record<string, string>>({});
+
+  // keep ref updated with the latest lists mapping
+  useEffect(() => {
+    listsRef.current = lists;
+  }, [lists]);
 
   useEffect(() => {
     const channel = supabase.channel("public:tasks");
@@ -30,7 +36,7 @@ export default function App() {
           setTasks((prev) => [
             {
               ...record,
-              listName: lists[record.list_id] || "Inbox",
+              listName: listsRef.current[record.list_id] || "Inbox",
             },
             ...prev,
           ]);
@@ -44,7 +50,7 @@ export default function App() {
           setTasks((prev) =>
             prev.map((t) =>
               t.id === record.id
-                ? { ...t, ...record, listName: lists[record.list_id] || "Inbox" }
+                ? { ...t, ...record, listName: listsRef.current[record.list_id] || "Inbox" }
                 : t,
             ),
           );
