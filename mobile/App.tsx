@@ -6,6 +6,7 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
+  RefreshControl,
 } from "react-native";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
@@ -19,6 +20,7 @@ export default function App() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [lists, setLists] = useState<Record<string, string>>({});
   const listsRef = useRef<Record<string, string>>({});
+  const [refreshing, setRefreshing] = useState(false);
 
   // keep ref updated with the latest lists mapping
   useEffect(() => {
@@ -116,6 +118,13 @@ export default function App() {
     }
   }
 
+  async function onRefresh() {
+    setRefreshing(true);
+    await fetchTaskLists();
+    await fetchTasks();
+    setRefreshing(false);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My Tasks</Text>
@@ -123,6 +132,9 @@ export default function App() {
         data={tasks}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 40 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.title}>{item.title}</Text>
